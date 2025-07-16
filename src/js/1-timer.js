@@ -1,12 +1,16 @@
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
+// console.log('Timer module loaded');
+// Описаний в документації
+import flatpickr from "flatpickr";
+// Додатковий імпорт стилів
+import "flatpickr/dist/flatpickr.min.css";
 
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
+import iziToast from"izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
+// Зберігання обраної дати
 let userSelectedDate = null;
 
-const startBtn = document.querySelector('[data-start]');
+const startBtn = document.querySelector("[data-start]");
 startBtn.disabled = true;
 
 const options = {
@@ -15,32 +19,34 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
+    
     startBtn.disabled = true;
 
     const selectedDate = selectedDates[0];
 
     if (selectedDate <= new Date()) {
       iziToast.warning({
-        title: 'Oops',
-        message: 'Please choose a date in the future',
-        position: 'topRight',
-        transitionIn: 'fadeInDown',
-        transitionOut: 'fadeOutUp',
-        timeout: 3000,
+        title: "Oops",
+        message: "Please choose a date in the future",
+        position: "topRight",
+        transitionIn: "fadeInDown",
+  transitionOut: "fadeOutUp",
+  timeout: 3000,
       });
       return;
     }
-
+    
     startBtn.disabled = false;
     userSelectedDate = selectedDate;
   },
 };
 
-flatpickr('#datetime-picker', options);
 
-startBtn.addEventListener('click', () => {
+flatpickr("#datetime-picker", options); 
+
+startBtn.addEventListener("click", () => {
   startBtn.disabled = true;
-  document.querySelector('#datetime-picker').disabled = true;
+  document.querySelector("#datetime-picker").disabled = true;
 
   const intervalId = setInterval(() => {
     const currentTime = new Date();
@@ -51,7 +57,7 @@ startBtn.addEventListener('click', () => {
       startBtn.disabled = true;
 
       updateTimerDisplay({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      document.querySelector('#datetime-picker').disabled = false;
+      document.querySelector("#datetime-picker").disabled = false;
       return;
     }
 
@@ -60,17 +66,16 @@ startBtn.addEventListener('click', () => {
   }, 1000);
 });
 function updateTimerDisplay({ days, hours, minutes, seconds }) {
-  document.querySelector('[data-days]').textContent = addLeadingZero(days);
-  document.querySelector('[data-hours]').textContent = addLeadingZero(hours);
-  document.querySelector('[data-minutes]').textContent =
-    addLeadingZero(minutes);
-  document.querySelector('[data-seconds]').textContent =
-    addLeadingZero(seconds);
+  document.querySelector("[data-days]").textContent = addLeadingZero(days);
+  document.querySelector("[data-hours]").textContent = addLeadingZero(hours);
+  document.querySelector("[data-minutes]").textContent = addLeadingZero(minutes);
+  document.querySelector("[data-seconds]").textContent = addLeadingZero(seconds);
 }
 
 function addLeadingZero(value) {
-  return String(value).padStart(2, '0');
+  return String(value).padStart(2, "0");
 }
+
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -94,3 +99,4 @@ function convertMs(ms) {
 console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
 console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
 console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+

@@ -1,3 +1,4 @@
+// console.log('Snackbar script loaded');
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
@@ -32,7 +33,7 @@ if (delay <= 0 || isNaN(delay)) {
         message: `Rejected promise in ${error}ms`,
         position: 'topRight',
       });
-      form.reset();
+      form.reset(); // Скидаємо форму після помилки
     });
 });
 
